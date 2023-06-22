@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      const shopArray = [
+        { shop: "Shop 1", rent: 100 },
+        { shop: "Shop 2", rent: 200 },
+        { shop: "Shop 3", rent: 150 },
+      ];
+
+      function addNewShop() {
+        const newShopName = document.getElementById("shop-input").value;
+        const newShopRent = document.getElementById("rent-input").value;
+        const newShop = {
+          shop: newShopName,
+          rent: newShopRent,
+        };
+        shopArray.push(newShop);
+        loadTable();
+      }
+
+      function deleteShop(index) {
+        shopArray.splice(index, 1);
+        loadTable();
+      }
+
+      function loadTable() {
+        const tableElement = document.getElementById("table");
+        tableElement.innerHTML = "";
+
+        const headerRowElement = document.createElement("tr");
+        headerRowElement.appendChild(createElement("th", "Index"));
+        headerRowElement.appendChild(createElement("th", "Shop Name"));
+        headerRowElement.appendChild(createElement("th", "Rent"));
+        headerRowElement.appendChild(createElement("th", "Action"));
+        tableElement.appendChild(headerRowElement);
+
+        for (let i = 0; i < shopArray.length; i++) {
+          const shop = shopArray[i];
+          const rowElement = document.createElement("tr");
+          rowElement.appendChild(createElement("td", i));
+          rowElement.appendChild(createElement("td", shop.shop));
+          rowElement.appendChild(createElement("td", shop.rent));
+
+          const deleteButton = document.createElement("button");
+          deleteButton.innerText = "Delete";
+          deleteButton.onclick = function () {
+            deleteShop(i);
+          };
+          rowElement.appendChild(createElement("td")).appendChild(deleteButton);
+          tableElement.appendChild(rowElement);
+        }
+      }
+
+      function createElement(tag, text) {
+        const element = document.createElement(tag);
+        element.innerText = text;
+        return element;
+      }
+    </script>
+  </head>
+
+  <body onload="loadTable();">
+    <h1>Shop List</h1>
+    <table id="table"></table>
+    <hr />
+    <div>
+      <h1>New Shop</h1>
+      Shop Name: <input type="text" id="shop-input" /> <br /><br />
+      Rent: <input type="number" id="rent-input" /> <br /><br />
+      <button onclick="addNewShop();">Add</button>
+    </div>
+     
+  </body>
+</html>
